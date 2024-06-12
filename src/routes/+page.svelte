@@ -1,2 +1,23 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import Heading from '$lib/components/Heading.svelte';
+	import Markdown from '@magidoc/plugin-svelte-marked';
+	import { testMarkdown } from './markdown';
+	import Link from '$lib/components/Link.svelte';
+    import { page } from '$app/stores';
+
+	function handleMessage(event: any) {
+        console.log('me ejecucte como fucnion')
+		console.log(event);
+		console.log(event.detail.text);
+	}
+</script>
+
+	<Markdown
+		source={testMarkdown}
+		renderers={{
+			heading: Heading,
+			link: Link
+		}}
+
+        on:message="{handleMessage}"
+	/>
