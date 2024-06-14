@@ -6,6 +6,7 @@ import remarkToc from 'remark-toc';
 import rehypeSlug from 'rehype-slug';
 import { use } from 'marked';
 import { visit } from 'unist-util-visit';
+import { remark } from 'remark';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
@@ -14,18 +15,16 @@ const mdsvexOptions = {
 	remarkPlugins: [
 		remarkUnwrapImages,
 		[remarkToc, { tight: true }],
-		use(() => (tree) => {
-			visit(tree, 'link', (node, index, parent) => {
-				console.log({ node });
-				if (node.type === 'link') {
-					// if the url string is not a relative path then return
-					//  todo: try to save the files who has external links
-					if (node.url.includes('http')) return console.error('External link found');
-
-					links.push(node.url);
-					console.log({ links });
-				}
-			});
+		use(() => {
+			let links = []; // Define the links array
+			return (tree) => {
+				visit(tree, ['link'], (node) => {
+					if (!node.url.includes('http')) {
+						links.push(node.url);
+					}
+				});
+				return links; // Return the links array
+			};
 		})
 	],
 	rehypePlugins: [rehypeSlug]
@@ -33,10 +32,12 @@ const mdsvexOptions = {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	extensions: ['.svelte', '.svx', '.md'],
+	// ojo con agregar el .md
+	// thought: puede ser que si agrego el .md en la lista de extensiones, vite lo prepropcsse como un asset y pueda hacer la lectura de una?
+	extensions: ['.svelte'],
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
+	preprocess: [vitePreprocess()],
 
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.

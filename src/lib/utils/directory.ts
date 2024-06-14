@@ -1,9 +1,36 @@
-export function countRelativePath({length}: {length: number}): string{
+import { readdir } from 'node:fs/promises';
 
-    let relativePath = '';
-    for (let i = 0; i < length; i++) {
-        relativePath += '../';
-    }
-    console.log({relativePath})
-    return relativePath;
+export function countRelativePath({ length }: { length: number }): string {
+	let relativePath = '';
+	for (let i = 0; i < length; i++) {
+		relativePath += '../';
+	}
+	console.log({ relativePath });
+	return relativePath;
+}
+
+
+// @bun
+export async function getRecursiveDirectories({ path }: { path: string }) {
+	const files = await readdir(path, { recursive: true });
+	return files;
+}
+
+export function generateSlug(str: string) {
+	str = str.replace(/^\s+|\s+$/g, ''); // trim
+	str = str.toLowerCase();
+
+	// remove accents, swap ñ for n, etc
+	const from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;';
+	const to = 'aaaaeeeeiiiioooouuuunc------';
+	for (let i = 0, l = from.length; i < l; i++) {
+		str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+	}
+
+	str = str
+		.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+		.replace(/\s+/g, '-') // collapse whitespace and replace by -
+		.replace(/-+/g, '-'); // collapse dashes
+
+	return str;
 }

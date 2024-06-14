@@ -1,7 +1,14 @@
+import path from 'path';
+import fs from 'fs';
 import { remark } from 'remark';
 import matter from 'gray-matter';
 import { visit } from 'unist-util-visit';
-import type { Node } from 'unist';
+import type { Node, Parent } from 'unist';
+import consola from 'consola';
+import { unified } from 'unified';
+import stringifyMd from "remark-stringify";
+
+import { generateSlug } from '$lib/utils/directory';
 
 export interface Metadata {
 	[key: string]: any;
@@ -33,23 +40,61 @@ const getStructuredMatter = (frontMatter: Metadata) => {
 	};
 };
 
-export function extractHrefs(markdown: string) {
+export function extractHrefs(markdown: string): string[] {
 	const links: any = [];
 	remark()
 		.use(() => (tree) => {
 			visit(tree, 'link', (node: Node, index, parent) => {
-				console.log({ node });
-				if (node.type === 'link') {
-                    // if the url string is not a relative path then return
-                    //  todo: try to save the files who has external links
-                    if (node.url.includes('http')) return console.error('External link found');
+				// if the url string is not a relative path then return
+				//  todo: try to save the files who has external links
+				if (node.url.includes('http')) return consola.error('External link found', node.url);
 
-					links.push(node.url);
-                    console.log({links})
-                    
-				}
+				links.push(node.url);
+				console.log({ links });
 			});
 		})
 		.process(markdown, () => {});
 	return links;
+}
+
+
+
+export function generatePreviewMarkdown(filename:string) {
+	const { dir, name } = path.parse(filename);
+	const noteName = path.join(dir, name);
+	const slug = generateSlug(noteName);
+	const fullPath = thoughtsDirectory + filename;
+	const { birthtime, mtime } = fs.statSync(fullPath);
+	const rawContent = fs.readFileSync(fullPath, "utf-8");
+	const { content, data: frontmatter } = matter(rawContent);
+	if (frontmatter.hidden && !showHidden) {
+	  return null;
+	}
+
+	const thoughtProps = {
+	  birthtime,
+	  mtime,
+	  filename,
+	  fullPath,
+	  slug,
+	  name: noteName,
+	  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+	  frontmatter: (frontmatter as any) as ThoughtFrontmatter,
+	};
+
+	const isPrivate = frontmatter.private == true || privates.some(matches(filename));
+	if (isPrivate && !showPrivates) {
+	  return {
+		...thoughtProps,
+		rawContent: privateMarkdown,
+		content: privateMarkdown,
+	  };
+	}
+
+	return {
+	  ...thoughtProps,
+	  rawContent,
+	  content,
+	};
+
 }
