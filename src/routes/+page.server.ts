@@ -5,7 +5,7 @@ import consola from 'consola';
 export async function load({fetch}) {
 	try {
 		const response = await fetch('/api/notes');
-		const notes: MarkdownInfo = await response.json();
+		const notes: MarkdownInfo[] = await response.json();
 
         consola.info(notes)
 

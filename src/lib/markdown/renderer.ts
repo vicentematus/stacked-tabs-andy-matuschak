@@ -9,9 +9,10 @@ import { unified } from 'unified';
 import stringifyMd from "remark-stringify";
 
 import { generateSlug } from '$lib/utils/directory';
+import type { ExternalLink } from '$lib/models/links';
 
 export interface Metadata {
-	[key: string]: any;
+	[key: string]: string | boolean |Date | any;
 }
 
 export interface MarkdownInfo {
@@ -21,6 +22,7 @@ export interface MarkdownInfo {
 		tags: string[];
 	};
 	body: string;
+	externalLinks: ExternalLink[];
 }
 
 export function extractFrontMatter(markdown: string) {
@@ -30,6 +32,7 @@ export function extractFrontMatter(markdown: string) {
 }
 
 const getStructuredMatter = (frontMatter: Metadata) => {
+	console.log({frontMatter})
 	return {
 		data: {
 			title: frontMatter.title || '',

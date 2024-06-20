@@ -49,6 +49,7 @@
     "nanoid": "^5.0.7",
     "remark": "^15.0.1",
     "remark-parse": "^11.0.0",
+    "svelte-markdown": "^0.4.1",
     "unified": "^11.0.4"
   }
 }
