@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { links } from '$lib/stores/links';
 	import SvelteMarkdown from 'svelte-markdown';
+	import Heading from './Heading.svelte';
+	import List from './List.svelte';
+	import ListItem from './ListItem.svelte';
+	import BlockQuote from './BlockQuote.svelte';
+	import Paragraph from './Paragraph.svelte';
 
 	export let href = '';
 	export let title = '';
 	export let text = '';
-	console.log(href);
-	$: console.log($links);
-	// console.log(href, title, text);
 
 	let isShowing = false;
 	let markdown = 'hola';
@@ -15,24 +17,18 @@
 		isShowing = !isShowing;
 
 		// POR ACA VA ALGO TAMBIEN
-		console.log($links);
 		const filtered = $links.find((link) => {
-			console.log({ link });
-			console.log({ path: link.path });
-			console.log({ href });
-
 			const absoluteHref = '/notes' + new URL(href, window.location.href).pathname;
 			console.log({ absoluteHref });
 			return link.path === absoluteHref;
 		});
 
-		markdown = filtered.preview;
-		console.log({ filtered });
+		markdown = filtered?.preview || 'No preview available';
 	}
 
 	function handleClick(event: Event) {
 		event.preventDefault();
-		console.log({event})
+		console.log({ event });
 	}
 </script>
 
@@ -41,13 +37,16 @@
 	on:mouseenter={onHover}
 	on:mouseleave={() => (isShowing = !isShowing)}
 	on:click={handleClick}
-	class="text-lg font-bold "
+	class="text-lg font-bold"
 >
 	<slot />
 </a>
 
 {#if isShowing}
 	<div>
-		<SvelteMarkdown source={markdown} />
+		<SvelteMarkdown
+			source={markdown}
+			renderers={{ heading: Heading, list: List, listitem: ListItem , blockquote: BlockQuote, paragraph: Paragraph}}
+		/>
 	</div>
 {/if}

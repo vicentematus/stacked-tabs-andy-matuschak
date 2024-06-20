@@ -1,0 +1,1 @@
+<blockquote class="border-l-4 border-gray-500 my-4 pl-4"><slot></slot></blockquote>

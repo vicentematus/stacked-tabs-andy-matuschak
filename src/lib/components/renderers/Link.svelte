@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
     import {nanoid} from 'nanoid';
-	import Thought from './Thought.svelte';
+	import Thought from '../Thought.svelte';
 
 	const { isRelative, joinUrlPaths } = urlUtils;
 	export let token: Tokens.Link;
