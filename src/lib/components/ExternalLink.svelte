@@ -41,6 +41,7 @@
 	on:mouseenter={onHover}
 	on:mouseleave={() => (isShowing = !isShowing)}
 	on:click={handleClick}
+	class="text-lg font-bold "
 >
 	<slot />
 </a>

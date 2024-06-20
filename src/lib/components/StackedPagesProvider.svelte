@@ -16,6 +16,6 @@
 
 <svelte:window bind:innerWidth />
 
-<div class="flex max-w-xl mx-auto">
+<div class="max-w-xl mx-auto">
 	<slot></slot>
 </div>
