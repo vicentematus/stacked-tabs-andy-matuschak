@@ -6,6 +6,7 @@
 	import ListItem from './ListItem.svelte';
 	import BlockQuote from './BlockQuote.svelte';
 	import Paragraph from './Paragraph.svelte';
+	import ThoughtParagraph from './ThoughtParagraph.svelte';
 
 	export let href = '';
 	export let title = '';
@@ -46,7 +47,7 @@
 	<div>
 		<SvelteMarkdown
 			source={markdown}
-			renderers={{ heading: Heading, list: List, listitem: ListItem , blockquote: BlockQuote, paragraph: Paragraph}}
+			renderers={{ heading: Heading, list: List, listitem: ListItem , blockquote: BlockQuote, paragraph: ThoughtParagraph}}
 		/>
 	</div>
 {/if}
