@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { links } from '$lib/stores/links';
+	import { links, stackedNotes } from '$lib/stores/links';
 	import SvelteMarkdown from 'svelte-markdown';
 	import Heading from './Heading.svelte';
 	import List from './List.svelte';
@@ -7,6 +7,7 @@
 	import BlockQuote from './BlockQuote.svelte';
 	import Paragraph from './Paragraph.svelte';
 	import ThoughtParagraph from './ThoughtParagraph.svelte';
+	import { getContext, setContext } from 'svelte';
 
 	export let href = '';
 	export let title = '';
@@ -20,7 +21,6 @@
 		// POR ACA VA ALGO TAMBIEN
 		const filtered = $links.find((link) => {
 			const absoluteHref = '/notes' + new URL(href, window.location.href).pathname;
-			console.log({ absoluteHref });
 			return link.path === absoluteHref;
 		});
 
@@ -29,8 +29,19 @@
 
 	function handleClick(event: Event) {
 		event.preventDefault();
-		console.log({ event });
+		console.log({ href});
+
+		// check if the href is already in the stackedNotes
+		const isAlreadyStacked = $stackedNotes.some((note) => note.href === href);
+
+		if(isAlreadyStacked) {
+			return;
+		}
+
+		stackedNotes.set([...$stackedNotes, {href}]);
 	}
+
+
 </script>
 
 <a

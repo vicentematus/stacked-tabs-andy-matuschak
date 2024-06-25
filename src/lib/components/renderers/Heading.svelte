@@ -4,7 +4,6 @@
     export let raw;
   
     let id: string | undefined
-    console.log({depth})
 
   </script>
   
