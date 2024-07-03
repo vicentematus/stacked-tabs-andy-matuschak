@@ -4,8 +4,11 @@
 	import { writable } from 'svelte/store';
 	import { queryParam } from 'sveltekit-search-params';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
-	$: innerWidth = 0;
+
+		$: console.log({$page});
+			$: innerWidth = 0;
 
 	$: console.log(innerWidth);
 
@@ -44,6 +47,8 @@
 		console.log('#' + Math.floor(Math.random() * 16777215).toString(16));
 		return '#' + Math.floor(Math.random() * 16777215).toString(16);
 	}
+
+	// alguna forma de saber el index
 </script>
 
 <svelte:window bind:innerWidth />
