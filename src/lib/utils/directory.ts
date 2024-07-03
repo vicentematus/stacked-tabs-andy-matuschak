@@ -1,3 +1,6 @@
+import { extractFrontMatter } from '$lib/markdown/renderer';
+import { getExternalLink } from '$lib/models/links';
+import consola from 'consola';
 import { readdir } from 'node:fs/promises';
 
 export function countRelativePath({ length }: { length: number }): string {
@@ -8,7 +11,6 @@ export function countRelativePath({ length }: { length: number }): string {
 	console.log({ relativePath });
 	return relativePath;
 }
-
 
 // @bun
 export async function getRecursiveDirectories({ path }: { path: string }) {
@@ -33,4 +35,26 @@ export function generateSlug(str: string) {
 		.replace(/-+/g, '-'); // collapse dashes
 
 	return str;
+}
+
+export async function loadFile(path: string) {
+	const NOTES_DIRECTORY = './notes/';
+	const decodedPath = decodeURIComponent(path);
+	const isDirectoryExist = await Bun.file(NOTES_DIRECTORY + decodedPath).exists();
+	try {
+		if (isDirectoryExist) {
+			const file = Bun.file('./notes/' + decodedPath);
+			const text = await file.text();
+			const { data, body } = extractFrontMatter(text);
+			const preview = getExternalLink({ data, body, path: path });
+			return preview;
+		} else {
+			console.error('File does not exist.');
+			return null;
+		}
+	} catch (e: unknown) {
+		if (e instanceof Error) {
+			consola.error(e.message);
+		}
+	}
 }

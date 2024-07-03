@@ -32,7 +32,6 @@ export function extractFrontMatter(markdown: string) {
 }
 
 const getStructuredMatter = (frontMatter: Metadata) => {
-	console.log({frontMatter})
 	return {
 		data: {
 			title: frontMatter.title || '',
