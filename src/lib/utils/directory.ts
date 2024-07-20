@@ -1,22 +1,6 @@
 import { extractFrontMatter } from '$lib/markdown/renderer';
 import { getExternalLink } from '$lib/models/links';
 import consola from 'consola';
-import { readdir } from 'node:fs/promises';
-
-export function countRelativePath({ length }: { length: number }): string {
-	let relativePath = '';
-	for (let i = 0; i < length; i++) {
-		relativePath += '../';
-	}
-	console.log({ relativePath });
-	return relativePath;
-}
-
-// @bun
-export async function getRecursiveDirectories({ path }: { path: string }) {
-	const files = await readdir(path, { recursive: true });
-	return files;
-}
 
 export function generateSlug(str: string) {
 	str = str.replace(/^\s+|\s+$/g, ''); // trim
