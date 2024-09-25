@@ -1,21 +1,39 @@
 <script lang="ts">
-	import { COL_WIDTH, stackedNotes } from '$lib/stores/links';
-	import { setContext } from 'svelte';
+	import { stackedNotes } from '$lib/stores/links';
+	import { setContext, tick } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { queryParam } from 'sveltekit-search-params';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import ExternalLink from '$lib/components/renderers/ExternalLink.svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
+	$: console.log({ $page });
+	$: innerWidth = 0;
 
-		$: console.log({$page});
-			$: innerWidth = 0;
+	// TODO: Is the type right?
+	let scrollingContainer: HTMLElement;
+
+	function adjustScroll() {
+		if (scrollingContainer) {
+			scrollingContainer.scrollTo({
+				left: scrollingContainer.scrollWidth,
+				behavior: 'smooth'
+			});
+		}
+	}
+
+	$: if ($stackedNotes) {
+		tick().then(() => {
+			adjustScroll();
+		});
+	}
 
 	$: console.log(innerWidth);
 
 	const linkStore = writable([]);
 
 	$: if (innerWidth > 768) {
-		console.log('es mas grande');
 		console.log('hola');
 	}
 
@@ -37,48 +55,43 @@
 
 	$: if ($stackedNotes) {
 		const count = $stackedNotes.length;
+		const COL_WIDTH = 520;
 		const notesColumnsWidth = count * COL_WIDTH;
+		if (notesColumnsWidth > innerWidth) {
+			console.log('Hay un overflow');
+		}
 		console.log({ count });
 		console.log({ notesColumnsWidth });
 	}
 
-	// create a randomColor function
 	function randomColor() {
 		console.log('#' + Math.floor(Math.random() * 16777215).toString(16));
 		return '#' + Math.floor(Math.random() * 16777215).toString(16);
 	}
-
-	// alguna forma de saber el index
 </script>
 
 <svelte:window bind:innerWidth />
 
-{#if $stackedNotes.length > 0}
-	<div class="absolute right-0 top-0 text-clip">
-		<h1>Stacked Notes</h1>
-		<ul>
-			{#each $stackedNotes as note}
-				<li>
-					<a href={note.href}>{note.href}</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
-{/if}
-
-<div id="scrolling-container">
-	<div
-		id="note-columns-container"
-		style="width: {$stackedNotes.length * COL_WIDTH + COL_WIDTH}px"
-		class="bg-indigo-200 flex"
-	>
-		{#if $stackedNotes.length > 0}
-			{#each $stackedNotes as note,index}
-				<div style="width: {COL_WIDTH}; background-color: {randomColor()}">"pagina"</div>
-			{/each}
-		{/if}
-		<div class="mx-auto max-w-3xl">
+<div
+	id="scrolling-container"
+	class="h-screen max-w-[100vw] overflow-x-auto"
+	bind:this={scrollingContainer}
+>
+	<div id="note-columns-container" class="justif-start flex bg-indigo-200">
+		<div class="w-[520px] h-screen">
 			<slot></slot>
 		</div>
+		{#if $stackedNotes.length > 0}
+			{#each $stackedNotes.reverse() as note, index}
+				<div style=" background-color: {randomColor()}" class="shadow-sm w-[520px] p-4">
+					<SvelteMarkdown
+						source={note.body}
+						renderers={{
+							link: ExternalLink
+						}}
+					></SvelteMarkdown>
+				</div>
+			{/each}
+		{/if}
 	</div>
 </div>

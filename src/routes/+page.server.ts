@@ -1,13 +1,16 @@
 import type { MarkdownInfo } from '$lib/markdown/renderer';
+import { mockMardown } from '$lib/mocks/';
 import { error } from '@sveltejs/kit';
 import consola from 'consola';
 
-export async function load({fetch}) {
+export async function load({ fetch }) {
 	try {
-		const response = await fetch('/api/notes');
-		const notes: MarkdownInfo[] = await response.json();
+		// const response = await fetch('/api/notes');
+		// const notes: MarkdownInfo[] = await response.json();
 
-        consola.info(notes)
+		const notes: MarkdownInfo[] = mockMardown;
+
+		consola.info(notes);
 
 		return {
 			notes

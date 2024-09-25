@@ -1,38 +1,23 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+# Andy Matuschak Stacked Notes
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/). Trying to implement them. [See other example on the note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn?utm_source=share&utm_medium=member_desktop)
 
-## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## limitations
 
-```bash
-npm run dev
+- How to deal with the stacked notes reactively on the page?  Because Andy use the queryparams such as https://notes.andymatuschak.org/About_these_notes?stackedNotes=zCMhncA1iSE74MKKYQS5PBZ to deal with it.
+- Should I host the markdown files?  Because using the Slug will cause some problems in the future, and its better to GET by ID. Maybe host the markdown files on R2 or Supabase? I don't know if Vercel will handle the folder operations. Maybe a VPS?
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
 
-## Building
 
-To create a production version of your app:
+## Installation
 
-```bash
-npm run build
-```
+Install Bun as runtime.
 
-You can preview the production build with `npm run preview`.
+Then with the --bun flag, run the dev server. This is important because we use the Bun I/O File API to parse the markdown files.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+bun --bun run dev

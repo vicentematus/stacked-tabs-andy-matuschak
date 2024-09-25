@@ -5,8 +5,6 @@ import matter from 'gray-matter';
 import { visit } from 'unist-util-visit';
 import type { Node, Parent } from 'unist';
 import consola from 'consola';
-import { unified } from 'unified';
-import stringifyMd from "remark-stringify";
 
 import { generateSlug } from '$lib/utils/directory';
 import type { ExternalLink } from '$lib/models/links';

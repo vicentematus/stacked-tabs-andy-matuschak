@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { links, stackedNotes } from '$lib/stores/links';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import SvelteMarkdown from 'svelte-markdown';
 	import Heading from './Heading.svelte';
 	import List from './List.svelte';
@@ -14,51 +15,84 @@
 	export let text = '';
 
 	let isShowing = false;
-	let markdown = 'hola';
-	function onHover() {
+	let loading: boolean = false;
+	let markdown = '';
+	async function onHover() {
 		isShowing = !isShowing;
 
-		// POR ACA VA ALGO TAMBIEN
-		const filtered = $links.find((link) => {
-			const absoluteHref = '/notes' + new URL(href, window.location.href).pathname;
-			return link.path === absoluteHref;
-		});
+		// TODO: Define the api route endpoint correctly. Is this the correct HTTP Method for a get of a note? Why should i need to pass a slug does this makes sense?
+		try {
+			const response = await fetch('/api/notes/detail/?slug=' + encodeURIComponent(href), {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
 
-		markdown = filtered?.preview || 'No preview available';
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const blob = await response.blob();
+			const text = await blob.text();
+
+			markdown = text;
+			console.log({ text });
+		} catch (error) {
+			console.error('Error fetching the page:', error);
+			markdown = 'No preview available';
+		}
 	}
 
 	function handleClick(event: Event) {
 		event.preventDefault();
-		console.log({ href});
+		console.log({ href });
 
-		// check if the href is already in the stackedNotes
 		const isAlreadyStacked = $stackedNotes.some((note) => note.href === href);
 
-		if(isAlreadyStacked) {
+		if (isAlreadyStacked) {
 			return;
 		}
 
-		stackedNotes.set([...$stackedNotes, {href}]);
+		if (!markdown) {
+			return;
+		}
+
+		stackedNotes.set([...$stackedNotes, { href, body: markdown }]);
 	}
-
-
 </script>
 
-<a
-	{href}
-	on:mouseenter={onHover}
-	on:mouseleave={() => (isShowing = !isShowing)}
-	on:click={handleClick}
-	class="text-lg font-bold"
->
-	<slot />
-</a>
+<!--  TODO: Improve the structure of this component because Tooltip Root idk if it should be here.-->
+<Tooltip.Root openDelay={0}>
+	<Tooltip.Trigger class="inline-flex text-start" >
+		<a
+			{href}
+			on:mouseenter={onHover}
+			on:mouseleave={() => (isShowing = !isShowing)}
+			on:click={handleClick}
+			class="text-lg font-bold"
+		>
+			<slot />
+		</a>
+	</Tooltip.Trigger>
 
-{#if isShowing}
-	<div>
-		<SvelteMarkdown
-			source={markdown}
-			renderers={{ heading: Heading, list: List, listitem: ListItem , blockquote: BlockQuote, paragraph: ThoughtParagraph}}
-		/>
-	</div>
-{/if}
+	<Tooltip.Content transitionConfig={{duration:10}} class="max-w-xl">
+		{#if loading}
+			Esta cargando
+		{/if}
+		{#if isShowing}
+			<div>
+				<SvelteMarkdown
+					source={markdown}
+					renderers={{
+						heading: Heading,
+						list: List,
+						listitem: ListItem,
+						blockquote: BlockQuote,
+						paragraph: ThoughtParagraph
+					}}
+				/>
+			</div>
+		{/if}
+	</Tooltip.Content>
+</Tooltip.Root>

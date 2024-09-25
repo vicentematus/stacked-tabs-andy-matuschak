@@ -1,13 +1,11 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { marked } from 'marked';
-import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit() ],
+	plugins: [sveltekit()],
 	assetsInclude: ['**/*.md'],
-	server:{
-		fs:{
+	server: {
+		fs: {
 			strict: false
 		}
 	},

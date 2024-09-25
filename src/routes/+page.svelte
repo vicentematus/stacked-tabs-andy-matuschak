@@ -9,13 +9,8 @@
 
 	const note = notes[1];
 
+	console.log({notes})
 	console.log({ note });
-
-	function handleMessage(event: any) {
-		console.log('me ejecucte como fucnion');
-		console.log(event);
-		console.log(event.detail.text);
-	}
 
 	// TRATO DE USAR UN PROVIDER COMOO UN STORE PARA PODER ACCEDER A LOS LINKS!!
 	links.set(note.externalLinks);
@@ -24,11 +19,12 @@
 </script>
 
 <StackedPagesProvider>
-	<SvelteMarkdown
-		source={note.body}
-		renderers={{
-			link: ExternalLink
-		}}
-	></SvelteMarkdown>
+	<div class="px-8 py-2">
+		<SvelteMarkdown
+			source={note.body}
+			renderers={{
+				link: ExternalLink
+			}}
+		></SvelteMarkdown>
+	</div>
 </StackedPagesProvider>
-

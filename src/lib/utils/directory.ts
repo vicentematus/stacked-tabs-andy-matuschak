@@ -27,7 +27,7 @@ export async function loadFile(path: string) {
 	const isDirectoryExist = await Bun.file(NOTES_DIRECTORY + decodedPath).exists();
 	try {
 		if (isDirectoryExist) {
-			const file = Bun.file('./notes/' + decodedPath);
+			const file = await Bun.file('./notes/' + decodedPath);
 			const text = await file.text();
 			const { data, body } = extractFrontMatter(text);
 			const preview = getExternalLink({ data, body, path: path });
