@@ -12,8 +12,11 @@
     </a>
   </div>
 
+
 My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/). [See other example on the note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn?utm_source=share&utm_medium=member_desktop)
 
+
+[See deploy here.](https://andy-tabs.vicentematus.cl/)
 
 ## Thought process
 - How to deal with File IO operations on Node enviroments?
