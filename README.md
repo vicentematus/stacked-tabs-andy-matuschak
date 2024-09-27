@@ -5,10 +5,7 @@
 
 <div>
     <a href="https://www.loom.com/share/8728602b610243038fa694748ccaf50d">
-      <p>andy preview things - Watch Video</p>
-    </a>
-    <a href="https://www.loom.com/share/8728602b610243038fa694748ccaf50d">
-      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/8728602b610243038fa694748ccaf50d-9c5f0cb44e029c61-full-play.gif">
+      <img style="max-width:200px;" src="https://cdn.loom.com/sessions/thumbnails/8728602b610243038fa694748ccaf50d-9c5f0cb44e029c61-full-play.gif">
     </a>
   </div>
 
