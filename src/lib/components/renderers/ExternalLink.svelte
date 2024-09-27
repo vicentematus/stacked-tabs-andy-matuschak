@@ -45,6 +45,10 @@
 	}
 
 	function handleClick(event: Event) {
+		if(markdown === 'No preview available') {
+			event.preventDefault();
+			return;
+		}
 		event.preventDefault();
 		console.log({ href });
 
@@ -69,7 +73,7 @@
 			{href}
 			on:mouseenter={onHover}
 			on:mouseleave={() => (isShowing = !isShowing)}
-			on:click={handleClick}
+			on:click|preventDefault={handleClick}
 			class="text-lg font-bold"
 		>
 			<slot />
@@ -79,8 +83,7 @@
 	<Tooltip.Content transitionConfig={{duration:10}} class="max-w-xl">
 		{#if loading}
 			Esta cargando
-		{/if}
-		{#if isShowing}
+		{:else if isShowing}
 			<div>
 				<SvelteMarkdown
 					source={markdown}

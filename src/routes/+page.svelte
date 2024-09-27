@@ -3,11 +3,15 @@
 	import ExternalLink from '$lib/components/renderers/ExternalLink.svelte';
 	import { links, stackedNotes } from '$lib/stores/links';
 	import StackedPagesProvider from '$lib/components/StackedPagesProvider.svelte';
+	import List from '$lib/components/renderers/List.svelte';
+	import Paragraph from '$lib/components/renderers/Paragraph.svelte';
+	import ListItem from '$lib/components/renderers/ListItem.svelte';
+	import BlockQuote from '$lib/components/renderers/BlockQuote.svelte';
 
 	export let data;
 	const { notes } = data;
 
-	const note = notes[1];
+	const note = notes[0];
 
 	console.log({notes})
 	console.log({ note });
@@ -23,7 +27,10 @@
 		<SvelteMarkdown
 			source={note.body}
 			renderers={{
-				link: ExternalLink
+				link: ExternalLink,
+				list: List,
+						listitem: ListItem,
+						blockquote: BlockQuote,
 			}}
 		></SvelteMarkdown>
 	</div>

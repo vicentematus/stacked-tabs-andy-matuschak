@@ -77,13 +77,16 @@
 	class="h-screen max-w-[100vw] overflow-x-auto"
 	bind:this={scrollingContainer}
 >
-	<div id="note-columns-container" class="justif-start flex bg-indigo-200">
-		<div class="w-[520px] h-screen">
+	<div
+		id="note-columns-container"
+		class="flex flex-nowrap justify-start border border-x bg-indigo-200"
+	>
+		<div class="h-screen w-[520px] flex-none">
 			<slot></slot>
 		</div>
 		{#if $stackedNotes.length > 0}
 			{#each $stackedNotes.reverse() as note, index}
-				<div style=" background-color: {randomColor()}" class="shadow-sm w-[520px] p-4">
+				<div style=" background-color: {randomColor()}" class="w-[520px] flex-none p-4 shadow-sm">
 					<SvelteMarkdown
 						source={note.body}
 						renderers={{
