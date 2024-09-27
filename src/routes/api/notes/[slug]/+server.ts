@@ -1,5 +1,4 @@
 import { error } from '@sveltejs/kit';
-import { readdir } from 'node:fs/promises';
 import consola from 'consola';
 
 export async function GET({ setHeaders, url }) {
@@ -9,11 +8,7 @@ export async function GET({ setHeaders, url }) {
 	if (!slug) {
 		return error(404, 'Return a slug');
 	}
-	console.log({ slug });
 
-	// read all the files in the current directory
-	const files = await readdir('./notes');
-	console.log({ files });
 	try {
 		const decodedPath = decodeURIComponent(slug);
 		console.log({ decodedPath });
