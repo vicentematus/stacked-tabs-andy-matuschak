@@ -79,14 +79,14 @@
 >
 	<div
 		id="note-columns-container"
-		class="flex flex-nowrap justify-start border border-x bg-indigo-200"
+		class="flex flex-nowrap justify-start border border-x "
 	>
 		<div class="h-screen w-[520px] flex-none">
 			<slot></slot>
 		</div>
 		{#if $stackedNotes.length > 0}
 			{#each $stackedNotes.reverse() as note, index}
-				<div style=" background-color: {randomColor()}" class="w-[520px] flex-none p-4 shadow-sm">
+				<div class="w-[520px] flex-none p-4 shadow-md">
 					<SvelteMarkdown
 						source={note.body}
 						renderers={{

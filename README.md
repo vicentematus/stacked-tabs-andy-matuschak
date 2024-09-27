@@ -21,7 +21,7 @@ My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatus
 - Tried using Vite Assets with `import.meta.glob`, saw some Svelte Kit references, but nope.
 - Why not use Bun because it's more fun? so ended using [Bun File I/O operations ](https://bun.sh/docs/api/file-io).
 - How to parse markdown content from a `File`? use [gray-matter](https://github.com/jonschlinkert/gray-matter)
-- How to serve markdown content? using API Routes and parsing them on the server, just return the markdown with 			`'Content-Type': 'text/markdown'`
+- How to serve markdown content? using API Routes and parsing them on the server, just return the markdown with `'Content-Type': 'text/markdown'`. [**This is the most important part**](https://github.com/vicentematus/svelte-andy/blob/main/src/routes/api/notes/%5Bslug%5D/%2Bserver.ts)
 - How to deal with nodes and backlinks? Not yet.
 - What is an [Abstract Syntax Tree (AST)?](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
 - How to travel an AST? use [unist-util-visit](https://github.com/syntax-tree/unist-util-visit). [Tried this](https://github.com/vicentematus/svelte-andy/blob/main/src/lib/markdown/renderer.ts#L43-L58): 
