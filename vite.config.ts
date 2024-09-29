@@ -15,5 +15,8 @@ export default defineConfig({
 			// https://github.com/vitejs/vite/issues/12180
 			// '#': path.resolve(__dirname, 'notes'),
 		}
+	},
+	build: {
+		sourcemap: true
 	}
 });

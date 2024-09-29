@@ -7,8 +7,19 @@
 	import { page } from '$app/stores';
 	import ExternalLink from '$lib/components/renderers/ExternalLink.svelte';
 	import SvelteMarkdown from 'svelte-markdown';
+	import Markdown from 'svelte-exmarkdown';
+	import { gfmPlugin } from 'svelte-exmarkdown/gfm';
+	import type { Plugin } from 'svelte-exmarkdown';
 
-	$: console.log({ $page });
+	const plugins: Plugin[] = [
+		gfmPlugin(),
+		{
+			renderer: {
+				link: ExternalLink,
+			}
+		}
+	];
+
 	$: innerWidth = 0;
 
 	// TODO: Is the type right?
@@ -29,16 +40,9 @@
 		});
 	}
 
-	$: console.log(innerWidth);
 
 	const linkStore = writable([]);
 
-	$: if (innerWidth > 768) {
-		console.log('hola');
-	}
-
-	$: console.log(linkStore);
-	$: console.log($stackedNotes);
 
 	const stackedNoteParams = queryParam('stackedNotes');
 
@@ -60,14 +64,8 @@
 		if (notesColumnsWidth > innerWidth) {
 			console.log('Hay un overflow');
 		}
-		console.log({ count });
-		console.log({ notesColumnsWidth });
 	}
 
-	function randomColor() {
-		console.log('#' + Math.floor(Math.random() * 16777215).toString(16));
-		return '#' + Math.floor(Math.random() * 16777215).toString(16);
-	}
 </script>
 
 <svelte:window bind:innerWidth />
@@ -87,12 +85,13 @@
 		{#if $stackedNotes.length > 0}
 			{#each $stackedNotes.reverse() as note, index}
 				<div class="w-[520px] flex-none p-4 shadow-md">
-					<SvelteMarkdown
+					<!-- <SvelteMarkdown
 						source={note.body}
 						renderers={{
 							link: ExternalLink
 						}}
-					></SvelteMarkdown>
+					></SvelteMarkdown> -->
+					<Markdown md={note.body} {plugins} />
 				</div>
 			{/each}
 		{/if}

@@ -9,17 +9,24 @@
 	import Paragraph from './Paragraph.svelte';
 	import ThoughtParagraph from './ThoughtParagraph.svelte';
 	import { getContext, setContext } from 'svelte';
+	import { getAstNode } from 'svelte-exmarkdown';
+
 
 	export let href = '';
 	export let title = '';
 	export let text = '';
 
+	const astContext = getAstNode();
+
+	console.log("hola external link")
+	console.log({astContext})
 	let isShowing = false;
 	let loading: boolean = false;
 	let markdown = '';
 	async function onHover() {
 		isShowing = !isShowing;
-
+		console.log("on hover se ejecuto")
+	
 		// TODO: Define the api route endpoint correctly. Is this the correct HTTP Method for a get of a note? Why should i need to pass a slug does this makes sense?
 		try {
 			const response = await fetch('/api/notes/detail/?slug=' + encodeURIComponent(href), {
@@ -50,7 +57,6 @@
 			return;
 		}
 		event.preventDefault();
-		console.log({ href });
 
 		const isAlreadyStacked = $stackedNotes.some((note) => note.href === href);
 
@@ -65,6 +71,8 @@
 		stackedNotes.set([...$stackedNotes, { href, body: markdown }]);
 	}
 </script>
+
+<!-- Dump current node --><pre>{JSON.stringify($astContext, null, 2)}</pre>
 
 <!--  TODO: Improve the structure of this component because Tooltip Root idk if it should be here.-->
 <Tooltip.Root openDelay={0}>
