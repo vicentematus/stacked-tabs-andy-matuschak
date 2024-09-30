@@ -1,16 +1,9 @@
 
-
-
 # Andy Matuschak Stacked Notes
 
-<div>
-    <a href="https://www.loom.com/share/8728602b610243038fa694748ccaf50d">
-      <img style="max-width:200px;" src="https://cdn.loom.com/sessions/thumbnails/8728602b610243038fa694748ccaf50d-9c5f0cb44e029c61-full-play.gif">
-    </a>
-  </div>
+https://github.com/user-attachments/assets/ab56c9a7-1cf0-4644-ac7d-958cea1de1e1
 
-
-My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/). [See other example on the note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn?utm_source=share&utm_medium=member_desktop)
+My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/). [See other example on the note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn?utm_source=share&utm_medium=member_desktop), and another [tweet Andy reacting to Obsidian adding it](https://x.com/andy_matuschak/status/1568032773025431552?lang=es).
 
 
 [See deploy here.](https://andy-tabs.vicentematus.cl/)
