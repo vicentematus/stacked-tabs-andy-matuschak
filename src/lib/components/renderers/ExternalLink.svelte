@@ -9,23 +9,24 @@
 	import Paragraph from './Paragraph.svelte';
 	import ThoughtParagraph from './ThoughtParagraph.svelte';
 	import { getContext, setContext } from 'svelte';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	export let href = '';
 	export let title = '';
 	export let text = '';
 
-	let isShowing = false;
 	let loading: boolean = false;
 	let markdown = '';
-	async function onHover() {
-		isShowing = !isShowing;
+	let open = false;
 
-		// TODO: Define the api route endpoint correctly. Is this the correct HTTP Method for a get of a note? Why should i need to pass a slug does this makes sense?
+	async function fetchMarkdown() {
+		loading = true;
 		try {
 			const response = await fetch('/api/notes/detail/?slug=' + encodeURIComponent(href), {
 				method: 'GET',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Cache-Control': 'force-cache'
 				}
 			});
 
@@ -37,15 +38,22 @@
 			const text = await blob.text();
 
 			markdown = text;
-			console.log({ text });
 		} catch (error) {
 			console.error('Error fetching the page:', error);
 			markdown = 'No preview available';
+		} finally {
+			loading = false;
 		}
+	}
+	
+
+	$: if (open && !markdown && !loading) {
+		console.log("its open")
+		fetchMarkdown();
 	}
 
 	function handleClick(event: Event) {
-		if(markdown === 'No preview available') {
+		if (markdown === 'No preview available') {
 			event.preventDefault();
 			return;
 		}
@@ -67,12 +75,10 @@
 </script>
 
 <!--  TODO: Improve the structure of this component because Tooltip Root idk if it should be here.-->
-<Tooltip.Root openDelay={0}>
-	<Tooltip.Trigger class="inline-flex text-start" >
+<Tooltip.Root openDelay={0} bind:open>
+	<Tooltip.Trigger class="inline-flex text-start">
 		<a
 			{href}
-			on:mouseenter={onHover}
-			on:mouseleave={() => (isShowing = !isShowing)}
 			on:click|preventDefault={handleClick}
 			class="text-lg font-bold"
 		>
@@ -80,21 +86,31 @@
 		</a>
 	</Tooltip.Trigger>
 
-	<Tooltip.Content transitionConfig={{duration:10}} class="max-w-xl">
-		{#if loading}
-			Esta cargando
-		{:else if isShowing}
+	<Tooltip.Content transitionConfig={{ duration: 300 }} class="max-w-xl">
+		{#if open}
 			<div>
-				<SvelteMarkdown
-					source={markdown}
-					renderers={{
-						heading: Heading,
-						list: List,
-						listitem: ListItem,
-						blockquote: BlockQuote,
-						paragraph: ThoughtParagraph
-					}}
-				/>
+				{#if loading}
+					<div class="space-y-2">
+						<Skeleton class="h-4 w-[250px]" />
+						<Skeleton class="h-4 w-[500px]" />
+						<Skeleton class="h-4 w-[500px]" />
+						<Skeleton class="h-4 w-[500px]" />
+						<Skeleton class="h-4 w-[500px]" />
+						<Skeleton class="h-4 w-[500px]" />
+						<Skeleton class="h-4 w-[500px]" />
+					</div>
+				{:else}
+					<SvelteMarkdown
+						source={markdown}
+						renderers={{
+							heading: Heading,
+							list: List,
+							listitem: ListItem,
+							blockquote: BlockQuote,
+							paragraph: ThoughtParagraph
+						}}
+					/>
+				{/if}
 			</div>
 		{/if}
 	</Tooltip.Content>

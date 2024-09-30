@@ -18,21 +18,15 @@ export async function GET({ setHeaders, url }) {
 			throw new Error('File does not exist.');
 		}
 
-		console.log('hola');
 		const file = Bun.file('./notes/' + decodedPath);
 		const text = await file.text();
-		console.log(text);
 		setHeaders({
-			'cache-control': 'max-age=600',
-			'Content-Type': 'text/markdown'
+			'Content-Type': 'text/markdown; charset=utf-8',
+			'cache-control': 'max-age=600'
 		});
 
 		return new Response(text, {
-			status: 200,
-			headers: {
-				'Content-Type': 'text/markdown',
-				'cache-control': 'max-age=600'
-			}
+			status: 200
 		});
 	} catch (err) {
 		if (err instanceof Error) {

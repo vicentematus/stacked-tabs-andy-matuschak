@@ -5,7 +5,7 @@
   </script>
   
   {#if ordered}
-    <ol class="list-decimal"><slot></slot></ol>
+    <ol class="list-decimal space-y-2"><slot></slot></ol>
   {:else}
-    <ul class="list-disc"><slot></slot></ul>
+    <ul class="list-disc space-y-2"><slot></slot></ul>
   {/if}
