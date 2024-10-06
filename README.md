@@ -3,14 +3,14 @@
 
 https://github.com/user-attachments/assets/ab56c9a7-1cf0-4644-ac7d-958cea1de1e1
 
-My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/). [See other example on the note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn?utm_source=share&utm_medium=member_desktop), and another [tweet Andy reacting to Obsidian adding it](https://x.com/andy_matuschak/status/1568032773025431552?lang=es).
+My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/).  See other example on the [note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn), and [ Andy thoughts on it](https://www.youtube.com/clip/UgkxHAWy3sqeXMIB3t2ctBAIQy_uH_QGhg91).
 
 
 [See deploy here.](https://andy-tabs.vicentematus.cl/)
 
 ## Thought process
 - How to deal with File IO operations on Node enviroments?
-- Thanks to [@NicolasMontone](https://github.com/NicolasMontone), he recommended using[ Node File IO operations ](https://nodejs.org/api/fs.html#promise-example). [See his code](https://github.com/NicolasMontone/nmontone/blob/52cc3bea5fa6736c5f69b7b6b3aa8383a5af777f/lib/posts.ts#L18-L37). Choose not to.
+- Thanks to [@NicolasMontone](https://github.com/NicolasMontone), he recommended using[ Node File IO operations ](https://nodejs.org/api/fs.html#promise-example). [See his code](https://github.com/NicolasMontone/nmontone/blob/52cc3bea5fa6736c5f69b7b6b3aa8383a5af777f/lib/posts.ts#L18-L37).
 - Tried using Vite Assets with `import.meta.glob`, saw some Svelte Kit references, but nope.
 - Why not use Bun because it's more fun? so ended using [Bun File I/O operations ](https://bun.sh/docs/api/file-io).
 - How to parse markdown content from a `File`? use [gray-matter](https://github.com/jonschlinkert/gray-matter)
@@ -68,4 +68,4 @@ bun dev
 
 ## Deployment
 
-Because we are using Bun as a runtime (with the File I/O operations), [Vercel just support Bun Package manager, but not the runtime](https://vercel.com/changelog/bun-install-is-now-supported-with-zero-configuration). Just [Render supports it natively](https://docs.render.com/native-runtimes), or your favorite VPS.
+Because we are using Bun as a runtime (with the File I/O operations), [Vercel is not an option because it just only supports Bun as a package manager, not the runtime](https://vercel.com/changelog/bun-install-is-now-supported-with-zero-configuration). Just [Render supports it natively](https://docs.render.com/native-runtimes), or your favorite VPS.
