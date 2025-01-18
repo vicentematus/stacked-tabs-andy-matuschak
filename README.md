@@ -43,7 +43,7 @@ export function extractHrefs(markdown: string): string[] {
 ## Limitations
 
 - How to deal with the stacked notes reactively on the page?  Because Andy use the queryparams such as https://notes.andymatuschak.org/About_these_notes?stackedNotes=zCMhncA1iSE74MKKYQS5PBZ to deal with it. Currently I deal with then a writable state.
-- Should I file hosting for the markdown files?  Because the ID it's using is the slug. Probably will cause some problems in the future, and it's better to GET by ID. Maybe host the markdown files on R2 or Supabase? 
+- Should I file hosting for the markdown files?  Because the ID it's using is the slug. Probably will cause some problems in the future, and it's better to GET by ID. Maybe host the markdown files on some bucket? 
 - Andy fetches all backlinks on every note visited. If you visit https://notes.andymatuschak.org/About_these_notes, on the network tab, it will fetch all external references for that note.
 - How to fetch all links on a markdown file? then you need to travel an AST (Abstract Syntax Tree).
 
