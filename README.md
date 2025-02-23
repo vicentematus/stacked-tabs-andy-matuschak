@@ -6,7 +6,6 @@ https://github.com/user-attachments/assets/ab56c9a7-1cf0-4644-ac7d-958cea1de1e1
 My take on stacked tabs view from [Andy Matuschak Notes](https://notes.andymatuschak.org/).  See other example on the [note taking app Obsidian.](https://www.linkedin.com/posts/stephango_sometimes-i-forget-to-use-the-tab-stack-view-activity-7202343994670919680-GjSn), and [ Andy thoughts on it](https://www.youtube.com/clip/UgkxHAWy3sqeXMIB3t2ctBAIQy_uH_QGhg91).
 
 
-[See deploy here.](https://andy-tabs.vicentematus.cl/)
 
 ## Thought process
 - How to deal with File IO operations on Node enviroments?
