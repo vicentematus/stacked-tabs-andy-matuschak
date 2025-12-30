@@ -67,4 +67,5 @@ bun dev
 
 ## Deployment
 
-Because we are using Bun as a runtime (with the File I/O operations), [Vercel is not an option because it just only supports Bun as a package manager, not the runtime](https://vercel.com/changelog/bun-install-is-now-supported-with-zero-configuration). Just [Render supports it natively](https://docs.render.com/native-runtimes), or your favorite VPS.
+[Vercel now supports using Bun runtime.
+](https://bun.com/blog/vercel-adds-native-bun-support)
